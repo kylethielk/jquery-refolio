@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>jquery-reFolio</title>
+    <link rel=stylesheet href="./style.css">
+    <script src="./lib/jquery.1.9.0.js"></script>
+    <script src="./refolio.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+    $(document).ready(function ()
+    {
+        var portfolio = $("#portfolio").refolio({
+            bar:'top',
+            items:[
+                {
+                    image:"./image/etsy.jpg",
+                    tags:['html', 'phonegap', 'javascript'],
+                    description:'Description is an excellent way of putting it you fool.',
+                    link:'http://www.plugin.com'},
+                {image:"./image/cocreate.jpg"},
+                {image:"./image/flipboard.jpg"},
+                {image:"./image/vevo.jpg"},
+                {image:"./image/abduzeedo.png"}
+
+            ]
+        });
+        portfolio.add({image:"./image/etsy.jpg"});
+    });
+</script>
+
+<div id="portfolio" style="width: 700px; height: 550px;border: 1px black solid; margin: 0 auto">
+
+</div>
+
+</body>
+</html>
