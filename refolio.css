@@ -1,0 +1,138 @@
+/** Contains all visible/hidden thumbnails **/
+#slider {
+    position: relative;
+    left: 0;
+}
+
+/** The visible portion of the thumbnails **/
+#slider-wrapper {
+    overflow: hidden;
+    height: 150px;
+    position: relative;
+}
+
+/** The list of items **/
+#slider ul {
+    list-style: none;
+    padding: 0;
+    margin-left: 10px;
+}
+
+#slider ul li {
+    float: left;
+    margin: 10px;
+}
+
+/** Left arrow **/
+.float-left-arrow-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 125px;
+    width: 35px;
+    cursor: pointer;
+}
+
+.float-left-arrow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: 60px;
+    opacity: 0.4;
+    background-color: #CCC;
+    padding: 10px;
+}
+
+/** Right arrow **/
+.float-right-arrow-container {
+    position: absolute;
+    top: 0;
+    height: 125px;
+    width: 35px;
+    cursor: pointer;
+}
+
+.float-right-arrow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: 60px;
+    opacity: 0.4;
+    background-color: #CCC;
+    padding: 10px;
+}
+
+/** Portfolio item title **/
+.refolio-h2 {
+    margin: 5px;
+    font-size: 140%;
+    color: #585858;
+}
+
+/** Portfolio item description **/
+.refolio-description {
+    color: #6D6D6D;
+    /*padding: 10px;*/
+    margin: 15px 5px;
+    text-align: justify;
+}
+
+/** Container for entire refolio, only applied if styleContainer: true is set in options **/
+.refolio-container {
+    background: #fff;
+    border: 1px solid #D3D3D3;
+    -webkit-box-shadow: #E9E9E9 0 0px 1px 1px;
+    box-shadow: #E9E9E9 0 0px 1px 1px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    border-width: 1px;
+    border-style: solid;
+}
+
+/** Tag styling **/
+.refolio-tag {
+
+    display: inline-block;
+    padding: 2px 4px;
+    font-size: 11.844px;
+    font-weight: bold;
+    line-height: 14px;
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    white-space: nowrap;
+    vertical-align: baseline;
+
+    margin: 5px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #3a87ad;
+}
+
+/** Thumbnail in the scroller **/
+.refolio-thumbnail {
+    border: 1px solid #eee;
+    padding: 2px;
+    overflow: hidden;
+}
+
+/** The title overlay that is shown when hovering over thumbnail **/
+.refolio-title-overlay {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 0;
+    text-align: center;
+    background-color: rgba(240, 240, 240, 0.9);
+    overflow: hidden;
+
+    color: #666674;
+    font-size: 18px;
+}
+
+/** Additional class added to the selected item title overlay **/
+.refolio-title-overlay-selected {
+    background-color: rgba(78, 166, 234, 0.98);
+    color: white;
+}
