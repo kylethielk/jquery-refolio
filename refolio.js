@@ -73,7 +73,7 @@
             bar:'top',
             width:700,
             styleContainer:true,
-            linkTarget:"_blank",
+            linkTarget:'_blank',
             items:[]
         }, options);
 
@@ -82,7 +82,7 @@
 
         if (settings.styleContainer)
         {
-            refolio.addClass("refolio-container");
+            refolio.addClass('refolio-container');
         }
 
         //Build a bunch of HTML and add it to screen
@@ -111,39 +111,39 @@
 
         selectedIndex = index;
 
-        var thumbnail = $("#refolio_thumbnail_" + selectedIndex);
+        var thumbnail = $('#refolio_thumbnail_' + selectedIndex);
 
         //Hide previous selection titleOverlay
-        $("#overlay_" + previousIndex).animate({height:0}, 350, '', function ()
+        $('#overlay_' + previousIndex).animate({height:0}, 350, '', function ()
         {
-            $("#overlay_" + previousIndex).removeClass("refolio-title-overlay-selected");
+            $('#overlay_' + previousIndex).removeClass('refolio-title-overlay-selected');
         });
 
-        if (!$("#overlay_" + selectedIndex).is(':animated'))
+        if (!$('#overlay_' + selectedIndex).is(':animated'))
         {
-            $("#overlay_" + selectedIndex).animate({height:30}, 350);
+            $('#overlay_' + selectedIndex).animate({height:30}, 350);
         }
-        $("#overlay_" + selectedIndex).addClass("refolio-title-overlay-selected");
+        $('#overlay_' + selectedIndex).addClass('refolio-title-overlay-selected');
 
 
         var imageWidth = thumbnail.width();
         var imageHeight = thumbnail.height();
 
         //Duplicate Image
-        var fullSizeImage = $("<img>")
+        var fullSizeImage = $('<img>')
             .attr('src', thumbnail.attr('src'))
             .attr('id', 'refolio_image_' + selectedIndex)
             .css('width', thumbnail.css('width'))
             .css('height', thumbnail.css('height'))
             .css('position', 'absolute')
-            .css("opacity", 0.1);
+            .css('opacity', 0.1);
 
 
         //Get current thumbnail's position
         var pos = thumbnail.parent().position();
 
         //Overlay duplicate on source
-        var sliderLeft = parseInt($("#slider").css("left"));
+        var sliderLeft = parseInt($('#slider').css('left'));
         fullSizeImage.css('top', pos.top + 20).css('left', pos.left + sliderLeft);
 
         //Add image to HTML
@@ -157,55 +157,55 @@
         {
             if (settings.items[index].link)
             {
-                fullSizeImage.wrap($("<a>").attr('href', settings.items[index].link).attr('target', settings.linkTarget));
+                fullSizeImage.wrap($('<a>').attr('href', settings.items[index].link).attr('target', settings.linkTarget));
             }
         });
 
         //Remove previous image
-        $("#refolio_image_" + previousIndex).fadeOut(600, function ()
+        $('#refolio_image_' + previousIndex).fadeOut(600, function ()
         {
-            $("#refolio_image_" + previousIndex).remove();
+            $('#refolio_image_' + previousIndex).remove();
         });
 
         //Fade out old title,description, tags, fade in new ones
-        $("#informationContainer").fadeOut(600, function ()
+        $('#informationContainer').fadeOut(600, function ()
         {
             if (settings && settings.items && settings.items[index])
             {
-                if ($("#informationTitle").parent().is('a'))
+                if ($('#informationTitle').parent().is('a'))
                 {
                     if (settings.items[index].link)
                     {
-                        $("#informationTitle").parent().attr('href', settings.items[index].link);
+                        $('#informationTitle').parent().attr('href', settings.items[index].link);
                     }
                     else
                     {
-                        $("#informationTitle").unwrap();
+                        $('#informationTitle').unwrap();
                     }
                 }
                 else if (settings.items[index].link)
                 {
-                    $("#informationTitle").wrap(
-                        $("<a>")
-                            .attr("id", "informationTitleLink")
-                            .attr("target", settings.linkTarget)
-                            .attr("href", settings.items[index].link)
-                            .addClass("refolio-title-a")
+                    $('#informationTitle').wrap(
+                        $('<a>')
+                            .attr('id', 'informationTitleLink')
+                            .attr('target', settings.linkTarget)
+                            .attr('href', settings.items[index].link)
+                            .addClass('refolio-title-a')
                     );
 
                 }
 
-                $("#informationTitle").html(settings.items[index].title);
-                $("#informationDescription").html(settings.items[index].description);
+                $('#informationTitle').html(settings.items[index].title);
+                $('#informationDescription').html(settings.items[index].description);
 
-                $("#informationTags").empty();
+                $('#informationTags').empty();
 
                 $.each(settings.items[index].tags, function (index, tag)
                 {
-                    $("#informationTags").append($("<span>").addClass("refolio-tag").html(tag));
+                    $('#informationTags').append($('<span>').addClass('refolio-tag').html(tag));
                 });
 
-                $("#informationContainer").fadeIn(300);
+                $('#informationContainer').fadeIn(300);
             }
         });
     };
@@ -217,18 +217,18 @@
      */
     var buildArrow = function (leftOrRight)
     {
-        var arrowContainer = $("<div>")
+        var arrowContainer = $('<div>')
             .attr('id', leftOrRight + 'Arrow')
-            .addClass("float-" + leftOrRight + "-arrow-container");
+            .addClass('float-' + leftOrRight + '-arrow-container');
 
-        var arrowEntity = "&larr;";
-        if (leftOrRight == "right")
+        var arrowEntity = '&larr;';
+        if (leftOrRight == 'right')
         {
-            arrowEntity = "&rarr;";
+            arrowEntity = '&rarr;';
         }
 
-        var arrow = $("<div>")
-            .addClass("float-" + leftOrRight + "-arrow")
+        var arrow = $('<div>')
+            .addClass('float-' + leftOrRight + '-arrow')
             .append(arrowEntity);
 
         if (leftOrRight == 'left')
@@ -244,12 +244,12 @@
             {
                 mouseover:function ()
                 {
-                    arrow.css("opacity", 1.0);
+                    arrow.css('opacity', 1.0);
                     return false;
                 },
                 mouseout:function ()
                 {
-                    arrow.css("opacity", 0.4);
+                    arrow.css('opacity', 0.4);
                     return false;
                 }
             }
@@ -267,10 +267,10 @@
     {
         scrollIndex--;
 
-        var slider = $("#slider");
+        var slider = $('#slider');
 
         //Scroll images to right, exact width of first image to left of viewable pane.
-        var items = $("#slider > ul > li");
+        var items = $('#slider > ul > li');
         var width = $(items[scrollIndex]).outerWidth();
 
         var currentLeft = parseInt(slider.css('left'));
@@ -282,18 +282,18 @@
             nextLeft = 0;
         }
 
-        slider.animate({left:nextLeft + "px"}, 350);
+        slider.animate({left:nextLeft + 'px'}, 350);
 
         //Disable left click if we can't scroll left anymore
         if (nextLeft == 0)
         {
-            $("#leftArrow").hide();
+            $('#leftArrow').hide();
         }
 
         //Show right-click, if we have enough elements to scroll right
         if ((barWidth - 70) > visibleWidth)
         {
-            $("#rightArrow").show();
+            $('#rightArrow').show();
         }
 
     };
@@ -303,26 +303,26 @@
      */
     var rightArrowClick = function ()
     {
-        var slider = $("#slider");
+        var slider = $('#slider');
 
         //Scoot the images to left (x)px where (x)= width of left most visible image
-        var items = $("#slider > ul > li");
+        var items = $('#slider > ul > li');
         var width = $(items[scrollIndex]).outerWidth(true);
 
         var currentLeft = parseInt(slider.css('left'));
         var nextLeft = currentLeft - (width);
 
-        slider.animate({left:nextLeft + "px"}, 350);
+        slider.animate({left:nextLeft + 'px'}, 350);
 
         scrollIndex++;
 
         //Hide right arrow, if no more elements to right to show
         if ((-(nextLeft) + visibleWidth) >= (barWidth - 70))
         {
-            $("#rightArrow").hide();
+            $('#rightArrow').hide();
         }
 
-        $("#leftArrow").show();
+        $('#leftArrow').show();
 
     };
     /**
@@ -331,15 +331,15 @@
     var buildHtml = function ()
     {
         //Wrapper that hides elements extending past visibleWidth
-        var sliderWrapper = $("<div>")
-            .attr("id", "slider-wrapper")
-            .css("width", visibleWidth + "px");
+        var sliderWrapper = $('<div>')
+            .attr('id', 'slider-wrapper')
+            .css('width', visibleWidth + 'px');
 
         //The container holding all items, even the hidden ones.
-        var slider = $("<div>")
-            .attr("id", "slider");
+        var slider = $('<div>')
+            .attr('id', 'slider');
 
-        var sliderList = $("<ul>");
+        var sliderList = $('<ul>');
         for (var i = 0; i < settings.items.length; i++)
         {
             var li = buildThumbnailItemHtml(i);
@@ -367,29 +367,29 @@
         }, 1);
 
         //Make relative so inner absolute items, are absolute relative to us.
-        refolio.css("position", "relative");
-        refolio.css("overflow", "hidden");
+        refolio.css('position', 'relative');
+        refolio.css('overflow', 'hidden');
 
 
         //Build container that holds selected item
-        var informationContainer = $("<div>")
-            .attr("id", "informationContainer")
+        var informationContainer = $('<div>')
+            .attr('id', 'informationContainer')
             .css('width', visibleWidth / 2)
             .css('position', 'absolute')
             .css('top', 190)
             .css('left', visibleWidth / 2)
-            .addClass("information-container");
+            .addClass('information-container');
 
-        var title = $("<h2>")
-            .attr("id", "informationTitle")
-            .addClass("refolio-title");
+        var title = $('<h2>')
+            .attr('id', 'informationTitle')
+            .addClass('refolio-title');
 
-        var description = $("<p>")
-            .attr("id", "informationDescription")
-            .addClass("refolio-description");
+        var description = $('<p>')
+            .attr('id', 'informationDescription')
+            .addClass('refolio-description');
 
-        var tags = $("<div>")
-            .attr('id', "informationTags");
+        var tags = $('<div>')
+            .attr('id', 'informationTags');
 
 
         refolio.append(
@@ -407,26 +407,26 @@
     var buildThumbnailItemHtml = function (index)
     {
         //Build image and list item
-        var li = $("<li>");
+        var li = $('<li>');
 
-        var div = $("<div>")
-            .css("position", "relative")
-            .addClass("refolio-thumbnail");
+        var div = $('<div>')
+            .css('position', 'relative')
+            .addClass('refolio-thumbnail');
 
 
-        var thumbnail = $("<img>")
-            .attr("src", settings.items[index].image)
+        var thumbnail = $('<img>')
+            .attr('src', settings.items[index].image)
             .attr('id', 'refolio_thumbnail_' + index)
-            .css("height", "110px")
-            .css("cursor", "pointer");
+            .css('height', '110px')
+            .css('cursor', 'pointer');
 
-        var span = $("<span>")
-            .addClass("refolio-title-overlay")
+        var span = $('<span>')
+            .addClass('refolio-title-overlay')
             .attr('id', 'overlay_' + index);
 
 
-        var p = $("<p>")
-            .css("margin", "5px 0 0 0 ");
+        var p = $('<p>')
+            .css('margin', '5px 0 0 0 ');
 
         //Register click listener
         thumbnail.click($.extend({index:index}, settings.items[index]), imageClick);
@@ -434,16 +434,16 @@
         //Register listeners for hover title
         div.mouseenter({index:index}, function (e)
         {
-            $("#overlay_" + e.data.index).animate({height:30}, 350);
+            $('#overlay_' + e.data.index).animate({height:30}, 350);
         });
         div.mouseleave({index:index}, function (e)
         {
             //Don't hide selectedItem
             if (e.data.index != selectedIndex)
             {
-                $("#overlay_" + e.data.index).animate({height:0}, 350);
+                $('#overlay_' + e.data.index).animate({height:0}, 350);
                 //We simply hovered over an item, but didn't select it, reshow selected item title
-                $("#overlay_" + selectedIndex).animate({height:30}, 350);
+                $('#overlay_' + selectedIndex).animate({height:30}, 350);
             }
 
         });
@@ -469,20 +469,20 @@
             //Figure out total width of all elements, including hidden
             barWidth = 0;
 
-            jQuery("#slider > ul > li").each(function (index, value)
+            jQuery('#slider > ul > li').each(function (index, value)
             {
                 barWidth += $(this).outerWidth(true);
             });
 
             if (barWidth <= visibleWidth)
             {
-                $("#rightArrow").hide();
+                $('#rightArrow').hide();
             }
 
             //add 35px for each arrow
             barWidth += 70;
 
-            $("#slider").css('width', barWidth);
+            $('#slider').css('width', barWidth);
             callback();
         });
     };
@@ -492,7 +492,7 @@
      * options: {
      *  bar: 'top', valid options are top or bottom
      *  width: 700, width of visible content
-     *  items: [], arrow of items where each item is {image: 'src of image',tags: [array of tags],description: "", link: ""}
+     *  items: [], arrow of items where each item is {image: 'src of image',tags: [array of tags],description: '', link: ''}
      * }.
      * @return {jQuery} .
      */
