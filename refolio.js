@@ -100,32 +100,44 @@
             return;
         }
 
+        selectItem(event.data.index);
+
+    };
+    var selectItem = function (index)
+    {
         var previousIndex = selectedIndex;
 
-        selectedIndex = event.data.index;
+        selectedIndex = index;
+
+        var image = $("#refolio_thumbnail_" + selectedIndex);
 
         //Hide previous selection titleOverlay
         $("#overlay_" + previousIndex).animate({height:0}, 350, '', function ()
         {
-            $(this).removeClass("refolio-title-overlay-selected");
+            image.removeClass("refolio-title-overlay-selected");
         });
+        
+        if (!$("#overlay_" + selectedIndex).is(':animated'))
+        {
+            $("#overlay_" + selectedIndex).animate({height:30}, 350);
+        }
         $("#overlay_" + selectedIndex).addClass("refolio-title-overlay-selected");
 
-        var imageWidth = $(this).width();
-        var imageHeight = $(this).height();
+        var imageWidth = image.width();
+        var imageHeight = image.height();
 
         //Duplicate Image
         var additionalImage = $("<img>")
-            .attr('src', $(this).attr('src'))
+            .attr('src', image.attr('src'))
             .attr('id', 'refolio_image_' + selectedIndex)
-            .css('width', $(this).css('width'))
-            .css('height', $(this).css('height'))
+            .css('width', image.css('width'))
+            .css('height', image.css('height'))
             .css('position', 'absolute')
             .css("opacity", 0.1);
 
 
         //Get current thumbnail's position
-        var pos = $(this).parent().position();
+        var pos = image.parent().position();
 
         //Overlay duplicate on source
         var sliderLeft = parseInt($("#slider").css("left"));
@@ -147,14 +159,14 @@
 
         $("#informationContainer").fadeOut(600, function ()
         {
-            if (event && event.data)
+            if (settings && settings.items && settings.items[index])
             {
-                $("#informationTitle").html(event.data.title);
-                $("#informationDescription").html(event.data.description);
+                $("#informationTitle").html(settings.items[index].title);
+                $("#informationDescription").html(settings.items[index].description);
 
                 $("#informationTags").empty();
 
-                $.each(event.data.tags, function (index, tag)
+                $.each(settings.items[index].tags, function (index, tag)
                 {
                     $("#informationTags").append($("<span>").addClass("refolio-tag").html(tag));
                 });
@@ -284,7 +296,7 @@
         $("#leftArrow").show();
 
     };
-    var buildHtml = function()
+    var buildHtml = function ()
     {
         //Wrapper that hides elements extending past visibleWidth
         var sliderWrapper = $("<div>")
@@ -308,6 +320,7 @@
 
             var image = $("<img>")
                 .attr("src", settings.items[i].image)
+                .attr('id', 'refolio_thumbnail_' + i)
                 .css("height", "110px")
                 .css("cursor", "pointer");
 
@@ -365,7 +378,6 @@
         refolio.css("overflow", "hidden");
 
 
-
         var informationContainer = $("<div>")
             .attr("id", "informationContainer")
             .css('width', visibleWidth / 2)
@@ -393,8 +405,11 @@
     /**
      * Calculates required attributes for width of all items, including hidden ones and images.
      */
-    var calculateLayout = function ()
+    var calculateLayout = function (callback)
     {
+        callback = callback || function ()
+        {
+        };
         $(window).load(function ()
         {
 
@@ -415,7 +430,7 @@
             barWidth += 70;
 
             $("#slider").css('width', barWidth);
-
+            callback();
         });
     };
 
@@ -432,7 +447,11 @@
     {
         init.apply(this, arguments);
         buildHtml();
-        calculateLayout();
+        calculateLayout(function ()
+        {
+            selectItem(0);
+        });
+
         return this;
 
     };
