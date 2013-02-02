@@ -72,7 +72,7 @@
         settings = $.extend({
             bar:'top',
             width:700,
-            styleContainer:true,
+            styleContainer:false,
             linkTarget:'_blank',
             items:[]
         }, options);
