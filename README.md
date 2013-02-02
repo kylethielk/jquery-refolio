@@ -3,7 +3,6 @@ jquery-refolio
 
 A jquery plugin. A portfolio jquery plugin. 
 
-
 ![refolio Screenshot](https://raw.github.com/kylethielk/jquery-refolio/master/screenshot.jpg)
 
 Sample Usage
