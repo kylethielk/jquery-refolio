@@ -73,7 +73,7 @@
 .refolio-description {
     color: #6D6D6D;
     /*padding: 10px;*/
-    margin: 15px 5px;
+    margin: 15px 10px 15px 5px;
     text-align: justify;
 }
 
@@ -133,6 +133,6 @@
 
 /** Additional class added to the selected item title overlay **/
 .refolio-title-overlay-selected {
-    background-color: rgba(78, 166, 234, 0.98);
+    background-color: rgba(78, 166, 234, 0.95);
     color: white;
 }

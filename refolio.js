@@ -103,60 +103,64 @@
         selectItem(event.data.index);
 
     };
+
     var selectItem = function (index)
     {
         var previousIndex = selectedIndex;
 
         selectedIndex = index;
 
-        var image = $("#refolio_thumbnail_" + selectedIndex);
+        var thumbnail = $("#refolio_thumbnail_" + selectedIndex);
 
         //Hide previous selection titleOverlay
         $("#overlay_" + previousIndex).animate({height:0}, 350, '', function ()
         {
-            image.removeClass("refolio-title-overlay-selected");
+            $("#overlay_" + previousIndex).removeClass("refolio-title-overlay-selected");
         });
-        
+
         if (!$("#overlay_" + selectedIndex).is(':animated'))
         {
             $("#overlay_" + selectedIndex).animate({height:30}, 350);
         }
         $("#overlay_" + selectedIndex).addClass("refolio-title-overlay-selected");
 
-        var imageWidth = image.width();
-        var imageHeight = image.height();
+
+        var imageWidth = thumbnail.width();
+        var imageHeight = thumbnail.height();
 
         //Duplicate Image
-        var additionalImage = $("<img>")
-            .attr('src', image.attr('src'))
+        var fullSizeImage = $("<img>")
+            .attr('src', thumbnail.attr('src'))
             .attr('id', 'refolio_image_' + selectedIndex)
-            .css('width', image.css('width'))
-            .css('height', image.css('height'))
+            .css('width', thumbnail.css('width'))
+            .css('height', thumbnail.css('height'))
             .css('position', 'absolute')
             .css("opacity", 0.1);
 
 
         //Get current thumbnail's position
-        var pos = image.parent().position();
+        var pos = thumbnail.parent().position();
 
         //Overlay duplicate on source
         var sliderLeft = parseInt($("#slider").css("left"));
-        additionalImage.css('top', pos.top + 20).css('left', pos.left + sliderLeft);
+        fullSizeImage.css('top', pos.top + 20).css('left', pos.left + sliderLeft);
 
         //Add image to HTML
-        refolio.append(additionalImage);
+        refolio.append(fullSizeImage);
 
         //Animate scaling image and moving to new location
         var newWidth = (visibleWidth / 2) - 20;
         var scaleRatio = newWidth / imageWidth;
         var height = imageHeight * scaleRatio;
-        additionalImage.animate({width:newWidth, height:height, top:'190', left:'15', opacity:1}, 750);
+        fullSizeImage.animate({width:newWidth, height:height, top:'190', left:'15', opacity:1}, 750);
 
+        //Remove previous image
         $("#refolio_image_" + previousIndex).fadeOut(600, function ()
         {
             $("#refolio_image_" + previousIndex).remove();
         });
 
+        //Fade out old title,description, tags, fade in new ones
         $("#informationContainer").fadeOut(600, function ()
         {
             if (settings && settings.items && settings.items[index])
@@ -170,15 +174,10 @@
                 {
                     $("#informationTags").append($("<span>").addClass("refolio-tag").html(tag));
                 });
+
                 $("#informationContainer").fadeIn(300);
             }
         });
-    };
-
-
-    var buildThumbnailItem = function (index)
-    {
-
     };
 
     /**
@@ -296,6 +295,9 @@
         $("#leftArrow").show();
 
     };
+    /**
+     * Builds HTML for refolio.
+     */
     var buildHtml = function ()
     {
         //Wrapper that hides elements extending past visibleWidth
@@ -308,55 +310,16 @@
             .attr("id", "slider");
 
         var sliderList = $("<ul>");
-
-
         for (var i = 0; i < settings.items.length; i++)
         {
-            //Build image and list item
-            var li = $("<li>");
-
-            var div = $("<div>").css("position", "relative").addClass("refolio-thumbnail");
-
-
-            var image = $("<img>")
-                .attr("src", settings.items[i].image)
-                .attr('id', 'refolio_thumbnail_' + i)
-                .css("height", "110px")
-                .css("cursor", "pointer");
-
-            var span = $("<span>").addClass("refolio-title-overlay").attr('id', 'overlay_' + i);
-
-
-            var p = $("<p>").css("margin", "5px 0 0 0 ");
-
-            image.click($.extend({index:i}, settings.items[i]), imageClick);
-            div.mouseenter({index:i}, function (e)
-            {
-                $("#overlay_" + e.data.index).animate({height:30}, 350);
-            });
-            div.mouseleave({index:i}, function (e)
-            {
-                //Don't hide selectedItem
-                if (e.data.index != selectedIndex)
-                {
-                    $("#overlay_" + e.data.index).animate({height:0}, 350);
-                    //We simply hovered over an item, but didn't select it, reshow selected item title
-                    $("#overlay_" + selectedIndex).animate({height:30}, 350);
-                }
-
-            });
-
-            div.append(image);
-            div.append(span.append(p.html(settings.items[i].title)));
-
-            li.append(div);
+            var li = buildThumbnailItemHtml(i);
             sliderList.append(li);
         }
 
-        slider.append(sliderList);
-        sliderWrapper.append(slider);
+        refolio.append(
+            sliderWrapper.append(
+                slider.append(sliderList)));
 
-        refolio.append(sliderWrapper);
 
         //Build left & right arrows
         var leftArrow = buildArrow('left').hide();
@@ -365,7 +328,7 @@
         var rightArrow = buildArrow('right');
         sliderWrapper.append(rightArrow);
 
-        //Cheat, only place right arrow after init() has returned, so that we get correct width
+        //Cheat, only place right arrow after buildHtml() has returned, so that we get correct width
         //for sliderWrapper
         setTimeout(function ()
         {
@@ -378,6 +341,7 @@
         refolio.css("overflow", "hidden");
 
 
+        //Build container that holds selected item
         var informationContainer = $("<div>")
             .attr("id", "informationContainer")
             .css('width', visibleWidth / 2)
@@ -396,11 +360,69 @@
         var tags = $("<div>")
             .attr('id', "informationTags");
 
-        informationContainer.append(h2);
-        informationContainer.append(description);
-        informationContainer.append(tags);
 
-        refolio.append(informationContainer);
+        refolio.append(
+            informationContainer
+                .append(h2)
+                .append(description)
+                .append(tags));
+    };
+
+    /**
+     * Builds html for thumbnail at given index.
+     * @param {Number} index
+     * @return {*|jQuery|HTMLElement}
+     */
+    var buildThumbnailItemHtml = function (index)
+    {
+        //Build image and list item
+        var li = $("<li>");
+
+        var div = $("<div>")
+            .css("position", "relative")
+            .addClass("refolio-thumbnail");
+
+
+        var thumbnail = $("<img>")
+            .attr("src", settings.items[index].image)
+            .attr('id', 'refolio_thumbnail_' + index)
+            .css("height", "110px")
+            .css("cursor", "pointer");
+
+        var span = $("<span>")
+            .addClass("refolio-title-overlay")
+            .attr('id', 'overlay_' + index);
+
+
+        var p = $("<p>")
+            .css("margin", "5px 0 0 0 ");
+
+        //Register click listener
+        thumbnail.click($.extend({index:index}, settings.items[index]), imageClick);
+
+        //Register listeners for hover title
+        div.mouseenter({index:index}, function (e)
+        {
+            $("#overlay_" + e.data.index).animate({height:30}, 350);
+        });
+        div.mouseleave({index:index}, function (e)
+        {
+            //Don't hide selectedItem
+            if (e.data.index != selectedIndex)
+            {
+                $("#overlay_" + e.data.index).animate({height:0}, 350);
+                //We simply hovered over an item, but didn't select it, reshow selected item title
+                $("#overlay_" + selectedIndex).animate({height:30}, 350);
+            }
+
+        });
+
+        div.append(thumbnail);
+        div.append(span.append(p.html(settings.items[index].title)));
+
+        li.append(div);
+
+        return li;
     };
     /**
      * Calculates required attributes for width of all items, including hidden ones and images.
