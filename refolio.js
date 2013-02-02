@@ -82,7 +82,7 @@
 
         if (settings.styleContainer)
         {
-            refolio.addClass('refolio-container');
+            refolio.addClass('refolioContainer');
         }
 
         //Build a bunch of HTML and add it to screen
@@ -111,19 +111,19 @@
 
         selectedIndex = index;
 
-        var thumbnail = $('#refolio_thumbnail_' + selectedIndex);
+        var thumbnail = $('#refolioThumbnail' + selectedIndex);
 
         //Hide previous selection titleOverlay
-        $('#overlay_' + previousIndex).animate({height:0}, 350, '', function ()
+        $('#spanTitleOverlay' + previousIndex).animate({height:0}, 350, '', function ()
         {
-            $('#overlay_' + previousIndex).removeClass('refolio-title-overlay-selected');
+            $('#spanTitleOverlay' + previousIndex).removeClass('refolioTitleOverlaySelected');
         });
 
-        if (!$('#overlay_' + selectedIndex).is(':animated'))
+        if (!$('#spanTitleOverlay' + selectedIndex).is(':animated'))
         {
-            $('#overlay_' + selectedIndex).animate({height:30}, 350);
+            $('#spanTitleOverlay' + selectedIndex).animate({height:30}, 350);
         }
-        $('#overlay_' + selectedIndex).addClass('refolio-title-overlay-selected');
+        $('#spanTitleOverlay' + selectedIndex).addClass('refolioTitleOverlaySelected');
 
 
         var imageWidth = thumbnail.width();
@@ -132,7 +132,7 @@
         //Duplicate Image
         var fullSizeImage = $('<img>')
             .attr('src', thumbnail.attr('src'))
-            .attr('id', 'refolio_image_' + selectedIndex)
+            .attr('id', 'refolioImage' + selectedIndex)
             .css('width', thumbnail.css('width'))
             .css('height', thumbnail.css('height'))
             .css('position', 'absolute')
@@ -162,9 +162,9 @@
         });
 
         //Remove previous image
-        $('#refolio_image_' + previousIndex).fadeOut(600, function ()
+        $('#refolioImage' + previousIndex).fadeOut(600, function ()
         {
-            $('#refolio_image_' + previousIndex).remove();
+            $('#refolioImage' + previousIndex).remove();
         });
 
         //Fade out old title,description, tags, fade in new ones
@@ -187,10 +187,9 @@
                 {
                     $('#informationTitle').wrap(
                         $('<a>')
-                            .attr('id', 'informationTitleLink')
                             .attr('target', settings.linkTarget)
                             .attr('href', settings.items[index].link)
-                            .addClass('refolio-title-a')
+                            .addClass('refolioTitleLink')
                     );
 
                 }
@@ -202,7 +201,7 @@
 
                 $.each(settings.items[index].tags, function (index, tag)
                 {
-                    $('#informationTags').append($('<span>').addClass('refolio-tag').html(tag));
+                    $('#informationTags').append($('<span>').addClass('refolioTag').html(tag));
                 });
 
                 $('#informationContainer').fadeIn(300);
@@ -217,9 +216,11 @@
      */
     var buildArrow = function (leftOrRight)
     {
+        var leftOrRightCapped = leftOrRight.substr(0, 1).toUpperCase() + leftOrRight.substr(1);
+
         var arrowContainer = $('<div>')
             .attr('id', leftOrRight + 'Arrow')
-            .addClass('float-' + leftOrRight + '-arrow-container');
+            .addClass('float' + leftOrRightCapped + 'ArrowContainer');
 
         var arrowEntity = '&larr;';
         if (leftOrRight == 'right')
@@ -228,7 +229,7 @@
         }
 
         var arrow = $('<div>')
-            .addClass('float-' + leftOrRight + '-arrow')
+            .addClass('float' + leftOrRightCapped + 'Arrow')
             .append(arrowEntity);
 
         if (leftOrRight == 'left')
@@ -332,7 +333,7 @@
     {
         //Wrapper that hides elements extending past visibleWidth
         var sliderWrapper = $('<div>')
-            .attr('id', 'slider-wrapper')
+            .attr('id', 'sliderWrapper')
             .css('width', visibleWidth + 'px');
 
         //The container holding all items, even the hidden ones.
@@ -378,15 +379,15 @@
             .css('position', 'absolute')
             .css('top', 190)
             .css('left', visibleWidth / 2)
-            .addClass('information-container');
+            .addClass('informationContainer');
 
         var title = $('<h2>')
             .attr('id', 'informationTitle')
-            .addClass('refolio-title');
+            .addClass('refolioTitle');
 
         var description = $('<p>')
             .attr('id', 'informationDescription')
-            .addClass('refolio-description');
+            .addClass('refolioDescription');
 
         var tags = $('<div>')
             .attr('id', 'informationTags');
@@ -411,18 +412,18 @@
 
         var div = $('<div>')
             .css('position', 'relative')
-            .addClass('refolio-thumbnail');
+            .addClass('refolioThumbnail');
 
 
         var thumbnail = $('<img>')
             .attr('src', settings.items[index].image)
-            .attr('id', 'refolio_thumbnail_' + index)
+            .attr('id', 'refolioThumbnail' + index)
             .css('height', '110px')
             .css('cursor', 'pointer');
 
         var span = $('<span>')
-            .addClass('refolio-title-overlay')
-            .attr('id', 'overlay_' + index);
+            .addClass('refolioTitleOverlay')
+            .attr('id', 'spanTitleOverlay' + index);
 
 
         var p = $('<p>')
@@ -434,16 +435,16 @@
         //Register listeners for hover title
         div.mouseenter({index:index}, function (e)
         {
-            $('#overlay_' + e.data.index).animate({height:30}, 350);
+            $('#spanTitleOverlay' + e.data.index).animate({height:30}, 350);
         });
         div.mouseleave({index:index}, function (e)
         {
             //Don't hide selectedItem
             if (e.data.index != selectedIndex)
             {
-                $('#overlay_' + e.data.index).animate({height:0}, 350);
+                $('#spanTitleOverlay' + e.data.index).animate({height:0}, 350);
                 //We simply hovered over an item, but didn't select it, reshow selected item title
-                $('#overlay_' + selectedIndex).animate({height:30}, 350);
+                $('#spanTitleOverlay' + selectedIndex).animate({height:30}, 350);
             }
 
         });

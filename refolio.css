@@ -5,7 +5,7 @@
 }
 
 /** The visible portion of the thumbnails **/
-#slider-wrapper {
+#sliderWrapper {
     overflow: hidden;
     height: 150px;
     position: relative;
@@ -24,7 +24,7 @@
 }
 
 /** Left arrow **/
-.float-left-arrow-container {
+.floatLeftArrowContainer {
     position: absolute;
     top: 0;
     left: 0;
@@ -33,7 +33,7 @@
     cursor: pointer;
 }
 
-.float-left-arrow {
+.floatLeftArrow {
     position: absolute;
     top: 0;
     left: 0;
@@ -44,7 +44,7 @@
 }
 
 /** Right arrow **/
-.float-right-arrow-container {
+.floatRightArrowContainer {
     position: absolute;
     top: 0;
     height: 125px;
@@ -52,7 +52,7 @@
     cursor: pointer;
 }
 
-.float-right-arrow {
+.floatRightArrow {
     position: absolute;
     top: 0;
     left: 0;
@@ -63,23 +63,23 @@
 }
 
 /** Portfolio item title **/
-.refolio-title {
+.refolioTitle {
     margin: 5px;
     font-size: 140%;
     text-decoration: none;
 }
 
-.refolio-title-a {
+.refolioTitleLink {
     text-decoration: none;
     color: #585858;
 }
 
-.refolio-title-a:hover {
+.refolioTitleLink:hover {
     color: #8ec63e;
 }
 
 /** Portfolio item description **/
-.refolio-description {
+.refolioDescription {
     color: #6D6D6D;
     /*padding: 10px;*/
     margin: 15px 10px 15px 5px;
@@ -87,7 +87,7 @@
 }
 
 /** Container for entire refolio, only applied if styleContainer: true is set in options **/
-.refolio-container {
+.refolioContainer {
     background: #fff;
     border: 1px solid #D3D3D3;
     -webkit-box-shadow: #E9E9E9 0 0px 1px 1px;
@@ -99,7 +99,7 @@
 }
 
 /** Tag styling **/
-.refolio-tag {
+.refolioTag {
 
     display: inline-block;
     padding: 2px 4px;
@@ -119,14 +119,14 @@
 }
 
 /** Thumbnail in the scroller **/
-.refolio-thumbnail {
+.refolioThumbnail {
     border: 1px solid #eee;
     padding: 2px;
     overflow: hidden;
 }
 
 /** The title overlay that is shown when hovering over thumbnail **/
-.refolio-title-overlay {
+.refolioTitleOverlay {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -141,11 +141,12 @@
 }
 
 /** Additional class added to the selected item title overlay **/
-.refolio-title-overlay-selected {
+.refolioTitleOverlaySelected {
     background-color: rgba(78, 166, 234, 0.95);
     color: white;
 }
-.information-container
+/** The container for title,description,tags **/
+.informationContainer
 {
     color: #585858;
 }
