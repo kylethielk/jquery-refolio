@@ -73,6 +73,7 @@
             bar:'top',
             width:700,
             styleContainer:true,
+            linkTarget:"_blank",
             items:[]
         }, options);
 
@@ -152,7 +153,13 @@
         var newWidth = (visibleWidth / 2) - 20;
         var scaleRatio = newWidth / imageWidth;
         var height = imageHeight * scaleRatio;
-        fullSizeImage.animate({width:newWidth, height:height, top:'190', left:'15', opacity:1}, 750);
+        fullSizeImage.animate({width:newWidth, height:height, top:'190', left:'15', opacity:1}, 750, '', function ()
+        {
+            if (settings.items[index].link)
+            {
+                fullSizeImage.wrap($("<a>").attr('href', settings.items[index].link).attr('target', settings.linkTarget));
+            }
+        });
 
         //Remove previous image
         $("#refolio_image_" + previousIndex).fadeOut(600, function ()
@@ -165,6 +172,29 @@
         {
             if (settings && settings.items && settings.items[index])
             {
+                if ($("#informationTitle").parent().is('a'))
+                {
+                    if (settings.items[index].link)
+                    {
+                        $("#informationTitle").parent().attr('href', settings.items[index].link);
+                    }
+                    else
+                    {
+                        $("#informationTitle").unwrap();
+                    }
+                }
+                else if (settings.items[index].link)
+                {
+                    $("#informationTitle").wrap(
+                        $("<a>")
+                            .attr("id", "informationTitleLink")
+                            .attr("target", settings.linkTarget)
+                            .attr("href", settings.items[index].link)
+                            .addClass("refolio-title-a")
+                    );
+
+                }
+
                 $("#informationTitle").html(settings.items[index].title);
                 $("#informationDescription").html(settings.items[index].description);
 
@@ -347,11 +377,12 @@
             .css('width', visibleWidth / 2)
             .css('position', 'absolute')
             .css('top', 190)
-            .css('left', visibleWidth / 2);
+            .css('left', visibleWidth / 2)
+            .addClass("information-container");
 
-        var h2 = $("<h2>")
+        var title = $("<h2>")
             .attr("id", "informationTitle")
-            .addClass("refolio-h2");
+            .addClass("refolio-title");
 
         var description = $("<p>")
             .attr("id", "informationDescription")
@@ -363,7 +394,7 @@
 
         refolio.append(
             informationContainer
-                .append(h2)
+                .append(title)
                 .append(description)
                 .append(tags));
     };

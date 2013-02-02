@@ -63,10 +63,19 @@
 }
 
 /** Portfolio item title **/
-.refolio-h2 {
+.refolio-title {
     margin: 5px;
     font-size: 140%;
+    text-decoration: none;
+}
+
+.refolio-title-a {
+    text-decoration: none;
     color: #585858;
+}
+
+.refolio-title-a:hover {
+    color: #8ec63e;
 }
 
 /** Portfolio item description **/
@@ -135,4 +144,8 @@
 .refolio-title-overlay-selected {
     background-color: rgba(78, 166, 234, 0.95);
     color: white;
+}
+.information-container
+{
+    color: #585858;
 }
