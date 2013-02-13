@@ -274,15 +274,17 @@
         var items = $('#slider > ul > li');
         var width = $(items[scrollIndex]).outerWidth();
 
+        var p = $(items[scrollIndex]).position();
         var currentLeft = parseInt(slider.css('left'));
-        var nextLeft = currentLeft + (width + 20);
+        var nextLeft = currentLeft + (width + 20) - previousLeftBuffer;
+
+        previousLeftBuffer = 0;
 
         //sanity...Don't let us extend past edge
         if (nextLeft > 0)
         {
             nextLeft = 0;
         }
-
         slider.animate({left:nextLeft + 'px'}, 350);
 
         //Disable left click if we can't scroll left anymore
@@ -300,6 +302,18 @@
     };
 
     /**
+     * When scrolling items to left, or hitting right arrow, the last item we might
+     * have to force the positioning so that the item sticks to the right
+     * side, rather than end up in the middle of the screen.
+     *
+     * If we force the positioning, this is the amount of forcing we had to do in pixels
+     * so it can be accounted for in the next leftArrowClick.
+     *
+     * @type {Number}
+     */
+    var previousLeftBuffer = 0;
+
+    /**
      * The click listener for right arrow.
      */
     var rightArrowClick = function ()
@@ -312,6 +326,14 @@
 
         var currentLeft = parseInt(slider.css('left'));
         var nextLeft = currentLeft - (width);
+
+        if (nextLeft < (visibleWidth - barWidth))
+        {
+            var oldLeft = nextLeft;
+            nextLeft = visibleWidth - barWidth + 40;
+
+            previousLeftBuffer = nextLeft - oldLeft;
+        }
 
         slider.animate({left:nextLeft + 'px'}, 350);
 
